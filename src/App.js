@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+import React, { useState } from "react";
 import './App.css';
+import { LoginPage } from "./LoginPage"; 
+import { RegisterPage } from "./RegisterPage"; 
+import Homepage from "./Homepage"; 
+import JobDetailsPage from "./JobDetailsPage"; 
+import ApplicationFormPage from "./ApplicationFormPage"; 
+import Successpage from "./Successpage";
+
+import { Route, Routes, Navigate } from "react-router-dom"; 
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [currentForm, setCurrentForm] = useState('login');
+
+    const toggleForm = (formName) => {
+        setCurrentForm(formName);
+    }
+
+    return (
+        <div className="App">
+            <p>{false && {currentForm}}</p>
+            <Routes>
+                <Route path="/login" element={<LoginPage onFormSwitch={toggleForm} />} />
+                <Route path="/register" element={<RegisterPage onFormSwitch={toggleForm} />} />
+                <Route path="/home" element={<Homepage />} />
+                <Route path="/job/:id" element={<JobDetailsPage />} />
+                <Route path="/apply" element={<ApplicationFormPage />} /> 
+                <Route path="/success" element={<Successpage />} />
+                <Route path="/" element={<Navigate to="/login" />} />
+            </Routes>
+        </div>
+    );
 }
 
 export default App;
